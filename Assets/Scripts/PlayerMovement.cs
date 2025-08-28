@@ -4,19 +4,29 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float controlSpeed = 10f;
+
+    Vector2 movement;
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        float xOffset = controlSpeed * Time.deltaTime;
-        transform.localPosition = new Vector3(transform.localPosition.x + xOffset, 0f, 0f);
+        ProcessTranslation();
     }
 
     public void OnMove(InputValue value)
     {
-        Debug.Log(value.Get<Vector2>());
+        movement = value.Get<Vector2>();
+    }
+    
+    private void ProcessTranslation()
+    {
+        float xOffset = movement.x * controlSpeed * Time.deltaTime;
+
+        float yOffset = movement.y * controlSpeed * Time.deltaTime;
+
+        transform.localPosition = new Vector3(transform.localPosition.x + xOffset, transform.localPosition.y + yOffset, 0f);
     }
 }
